@@ -1,0 +1,13 @@
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+# if a directory or a file exists, use it directly
+#请求的不是文件
+RewriteCond %{REQUEST_FILENAME} !-f
+ #请求的不是目录 就执行重写
+RewriteCond %{REQUEST_FILENAME} !-d
+
+
+# otherwise forward it to index.php
+RewriteRule  . index.php
