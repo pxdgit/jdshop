@@ -16,9 +16,12 @@
             <td><?=$articlecate->sort?></td>
             <td><?=\backend\models\ArticleCategory::$allstatus[$articlecate->status]?></td>
             <td><?=\backend\models\ArticleCategory::$allhelp[$articlecate->is_help]?></td>
-            <td><?=\yii\bootstrap\Html::a('修改',['article-category/edit','id'=>$articlecate->id],['class'=>'btn btn-warning btn-xs']);?> <?=\yii\bootstrap\Html::a('删除',['article-category/del','id'=>$articlecate->id],['class'=>'btn btn-danger btn-xs']);?> <?=\yii\bootstrap\Html::a('查看文章',['article-category/show','id'=>$articlecate->id],['class'=>'btn btn-danger btn-xs']);?></td>
+            <td><?=\yii\bootstrap\Html::a('修改',['article-category/edit','id'=>$articlecate->id],['class'=>'btn btn-warning btn-xs']);?> <?=\yii\bootstrap\Html::a('删除',['article-category/del','id'=>$articlecate->id],['class'=>'btn btn-danger btn-xs']);?> <?=\yii\bootstrap\Html::a('查看文章',['article-category/show','id'=>$articlecate->id],['class'=>'btn btn-success btn-xs']);?></td>
         </tr>
     <?php endforeach;?>
 </table>
-<?=\yii\bootstrap\Html::a('添加',['article-category/add'],['class'=>'btn btn-primary btn-xs']);?>
+<?php
+echo\yii\bootstrap\Html::a('添加',['article-category/add'],['class'=>'btn btn-primary btn-xs']);?>
+<?php echo \yii\widgets\LinkPager::widget(['pagination'=>$page]);?>
+
 

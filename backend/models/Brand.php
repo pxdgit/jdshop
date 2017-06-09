@@ -19,9 +19,7 @@ class Brand extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public $imgFile;
-    const SCENARIO_ADD='add';
-    const SCENARIO_EDIT='edit';
+
     public static  $allstatus=[-1=>'删除','0'=>'隐藏',1=>'正常'];
     public static function tableName()
     {
@@ -35,11 +33,9 @@ class Brand extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['intro'], 'string'],
+            [['intro','logo'], 'string'],
             [['sort', 'status'], 'integer'],
             [['name'], 'string', 'max' => 50],
-            ['imgFile','file','extensions'=>['jpg','png','gif','jpeg'],'skipOnEmpty'=>false,'on'=>self::SCENARIO_ADD],
-            ['imgFile','file','extensions'=>['jpg','png','gif','png'],'skipOnEmpty'=>true,'on'=>self::SCENARIO_EDIT],
         ];
     }
 

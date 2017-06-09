@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\Article;
 use backend\models\ArticleCategory;
 use backend\models\ArticleDetail;
+use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 use yii\web\Request;
 
@@ -12,8 +13,14 @@ class ArticleController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        $model=Article::find()->all();
-        return $this->render('index',['model'=>$model]);
+        $query=Article::find()->orderBy(['id'=>SORT_DESC]);//排序(e.g. orderBy（['id' => SORT_ASC, 'name' => SORT_DESC])).
+        $total=$query->count();
+        $page=new Pagination([
+            'totalCount'=>$total,
+            'defaultPageSize'=>'1'
+        ]);
+        $model=$query->offset($page->offset)->limit($page->limit)->all();
+        return $this->render('index',['model'=>$model,'page'=>$page]);
     }
     public function actionAdd(){
         $model=new Article();
@@ -62,4 +69,5 @@ class ArticleController extends \yii\web\Controller
         $model=Article::findOne(['id'=>$id]);
         return $this->render('show',['model'=>$model]);
     }
+
 }

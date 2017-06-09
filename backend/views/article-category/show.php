@@ -24,7 +24,6 @@
     <?php endforeach;?>
 </table>
 <?=\yii\bootstrap\Html::a('添加',['article/add'],['class'=>'btn btn-primary btn-xs']);
-echo \yii\widgets\LinkPager::widget(['pagination'=>$page]);
-?>
-
+?>　
+<?=\yii\bootstrap\Html::a('文章分类列表',['article-category/index'],['class'=>'btn btn-danger btn-xs']);?>
 

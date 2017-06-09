@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\Article;
 use backend\models\ArticleCategory;
+use yii\data\Pagination;
 use yii\web\Request;
 use yii\web\UploadedFile;
 
@@ -11,8 +12,14 @@ class ArticleCategoryController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        $model = ArticleCategory::find()->all();
-        return $this->render('index', ['model' => $model]);
+        $query=ArticleCategory::find();
+        $total=$query->count();
+        $page=new Pagination([
+            'totalCount'=>$total,
+            'defaultPageSize'=>'1'
+        ]);
+        $model=$query->offset($page->offset)->limit($page->limit)->all();
+        return $this->render('index', ['model' => $model,'page'=>$page]);
     }
     public function actionAdd(){
         $model = new ArticleCategory();
@@ -45,13 +52,16 @@ class ArticleCategoryController extends \yii\web\Controller
         $model = ArticleCategory::findOne(['id' => $id]);
         $article=Article::findOne(['article_category_id'=>$id]);
         if($article!=null){
-            \Yii::$app->session->setFlash('danger', '删除失败，该分类下有子分类');
+            \Yii::$app->session->setFlash('danger', '删除失败，该分类下有文章');
         }else{
             $model->status=-1;
             $model->save();
             \Yii::$app->session->setFlash('success', '删除成功');
         }
-
         return $this->redirect(['article-category/index']);
+    }
+    public function actionShow($id){
+        $model=Article::findAll(['article_category_id'=>$id]);
+        return $this->render('show', ['model' => $model]);
     }
 }

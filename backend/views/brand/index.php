@@ -20,5 +20,7 @@
         </tr>
     <?php endforeach;?>
 </table>
-<?=\yii\bootstrap\Html::a('添加',['brand/del'],['class'=>'btn btn-danger btn-xs']);?>
+<?=\yii\bootstrap\Html::a('添加',['brand/add'],['class'=>'btn btn-danger btn-xs']);
+echo \yii\widgets\LinkPager::widget(['pagination'=>$page]);
+?>
 
