@@ -25,14 +25,21 @@ class ArticleController extends \yii\web\Controller
     public function actionAdd(){
         $model=new Article();
         $detail=new ArticleDetail();
-        $cate=ArticleCategory::find()->all();
+//        获取分类方法一：
+        $cate=ArticleCategory::findAll(['status'=>1]);
         $cate=ArrayHelper::map($cate,'id','name');
+
+//        获取分类方法二：
+//        $cate=ArticleCategory::find()->asArray()->where(['status'=>1])->all();
+//        $cate=ArrayHelper::map($cate,'id','name');
+
         $request=new Request();
         if($request->isPost){
             $model->load($request->post());
             $detail->load($request->post());
-            if($model->validate()){
+            if($model->validate()&&$detail->validate()){
                 $model->save();
+                $detail->article_id=$model->id;
                 $detail->save();
                 \Yii::$app->session->setFlash('success','添加成功');
                 return $this->redirect(['article/index']);
