@@ -11,6 +11,7 @@ namespace backend\models;
 
 use backend\models\User;
 use yii\base\Model;
+use yii\web\Cookie;
 
 class LoginForm extends Model
 {
@@ -22,7 +23,7 @@ class LoginForm extends Model
         return [
             [['username','password'],'required'],
             [['username','password'],'check'],
-            ['remenberme','safe']
+            ['remenberme','boolean']
         ];
     }
     public function attributeLabels()
@@ -39,10 +40,13 @@ class LoginForm extends Model
             if(!\Yii::$app->security->validatePassword($this->password,$user->password_hash)){
                $this->addError('username','用户名或密码错误');
             }else{
-                \Yii::$app->user->login($user);
+                $duration=$this->remenberme?7*24*3600:0;
+                \Yii::$app->user->login($user,$duration);
                 $user->last_log_ip=\Yii::$app->request->userIP;
                 $user->last_log_time=time();
+                $user->auth_key=$user->getAuthKey();
                 $user->save(false);
+
             }
         }else{
                 $this->addError('username','用户名或密码错误');

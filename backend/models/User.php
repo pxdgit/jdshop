@@ -85,6 +85,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         if($insert){
             $this->created_at=time();
+            $this->auth_key=\Yii::$app->security->generateRandomString();
         }else{
             $this->updated_at=time();
         }

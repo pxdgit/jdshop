@@ -42,12 +42,13 @@ class UserController extends \yii\web\Controller
         return $this->redirect(['user/index']);
     }
     public function actionLogin(){
-        $model=new LoginForm();
-        if($model->load(\Yii::$app->request->post()) && $model->validate()){
+        $model=new LoginForm();//new一个登录验证的表单模型
+        if($model->load(\Yii::$app->request->post()) && $model->validate()){//接收数据并验证
             \Yii::$app->session->setFlash('success','登陆成功');
             return $this->redirect(['user/index']);
         }
         return $this->render('login',['loginform'=>$model]);
+
     }
     public function actionLoginout(){
         \Yii::$app->user->logout();
