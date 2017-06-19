@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-class GoodsIntroController extends \yii\web\Controller
+class GoodsIntroController extends BackendController
 {
     public function actionIndex()
     {

@@ -1,3 +1,5 @@
+<?=\yii\bootstrap\Html::a('添加',['brand/add'],['class'=>'btn btn-danger btn-md']);?>
+<p></p>
 <table class="table table-bordered table-hover table-striped">
     <tr>
         <th>商品ID</th>
@@ -16,11 +18,14 @@
             <td><?php echo \yii\bootstrap\Html::img($brand->logo,['class'=>'img-circle','width'=>50,'height'=>50])?></td>
             <td><?=$brand->sort?></td>
             <td><?=\backend\models\Brand::$allstatus[$brand->status]?></td>
-            <td><?=\yii\bootstrap\Html::a('修改',['brand/edit','id'=>$brand->id],['class'=>'btn btn-warning btn-xs']);?> <?=\yii\bootstrap\Html::a('删除',['brand/del','id'=>$brand->id],['class'=>'btn btn-danger btn-xs']);?> </td>
+            <td>
+                <?=\Yii::$app->user->can('brand/edit')?\yii\bootstrap\Html::a('修改',['brand/edit','id'=>$brand->id],['class'=>'btn btn-warning btn-xs']):'';?>
+                <?=\Yii::$app->user->can('brand/del')?\yii\bootstrap\Html::a('删除',['brand/del','id'=>$brand->id],['class'=>'btn btn-danger btn-xs']):'';?>
+            </td>
         </tr>
     <?php endforeach;?>
 </table>
-<?=\yii\bootstrap\Html::a('添加',['brand/add'],['class'=>'btn btn-danger btn-xs']);
+<?php
 echo \yii\widgets\LinkPager::widget(['pagination'=>$page]);
 ?>
 

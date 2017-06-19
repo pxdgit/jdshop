@@ -37,7 +37,7 @@ EOF
     ]
 ]);
 if($model->logo){
-    echo \yii\bootstrap\Html::img('@web'.$model->logo,['class'=>'img-circle','width'=>200,'height'=>200,'id'=>'img_logo']);
+    echo \yii\bootstrap\Html::img($model->logo,['class'=>'img-circle','width'=>200,'height'=>200,'id'=>'img_logo']);
 }else{
     echo \yii\bootstrap\Html::img($model->logo,['class'=>'img-circle','width'=>200,'height'=>200,'style'=>'display:none','id'=>'img_logo']);
 }

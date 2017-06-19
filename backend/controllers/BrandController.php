@@ -2,16 +2,26 @@
 
 namespace backend\controllers;
 
+use backend\components\RbacFilter;
 use backend\models\Brand;
 use yii\data\Pagination;
+use yii\web\Controller;
 use yii\web\Request;
 use yii\web\UploadedFile;
 use xj\uploadify\UploadAction;
 use crazyfd\qiniu\Qiniu;
 
 
-class BrandController extends \yii\web\Controller
+class BrandController extends BackendController
 {
+    public function behaviors(){
+        return [
+            'accessFilter'=>[
+                'class'=>RbacFilter::className(),
+                'only'=>['index','add','edit','del']
+            ],
+        ];
+    }
     public function actionIndex()
     {
         $query=Brand::find();
@@ -99,7 +109,8 @@ class BrandController extends \yii\web\Controller
                 'afterValidate' => function (UploadAction $action) {},
                 'beforeSave' => function (UploadAction $action) {},
                 'afterSave' => function (UploadAction $action) {
-                    $imgUrl= $action->getWebUrl();
+                    $imgUrl= $action->getWebUrl();//1
+//                    $imgUrl=$action->getSavePath();//2
 //                    $action->output['fileUrl'] = $action->getWebUrl();
                     //调用七牛云组件，将图片上传到七牛云
                     $qiniu=\Yii::$app->qiniu;
@@ -116,16 +127,26 @@ class BrandController extends \yii\web\Controller
         ];
     }
     public function actionTest(){
-        $ak = '43g5nYcengHvUx2sdNOsfCg_0qK4SOQmy4dckGoI';
-        $sk = 'byhCSvjH2e_3B4jamWLfRu6FSY0YPFFLKE16igdE';
-        $domain = 'http://or9r19axb.bkt.clouddn.com/';
-        $bucket = 'jxshop';
-        $qiniu = new Qiniu($ak, $sk,$domain, $bucket);
-        //要上传的文件
-        $filename=\Yii::getAlias('@webroot').'/images/brand/5938ff87b7219.png';
-        $key = '5938ff87b7219.png';
-        $re=$qiniu->uploadFile($filename,$key);
-        var_dump($re);
-        $url = $qiniu->getLink($key);
+//        $ak = '43g5nYcengHvUx2sdNOsfCg_0qK4SOQmy4dckGoI';
+//        $sk = 'byhCSvjH2e_3B4jamWLfRu6FSY0YPFFLKE16igdE';
+//        $domain = 'http://or9r19axb.bkt.clouddn.com/';
+//        $bucket = 'jxshop';
+//        $qiniu = new Qiniu($ak, $sk,$domain, $bucket);
+//        //要上传的文件
+//        $filename=\Yii::getAlias('@webroot').'/images/brand/5938ff87b7219.png';
+//        $key = '5938ff87b7219.png';
+//        $re=$qiniu->uploadFile($filename,$key);
+//        var_dump($re);
+//        $url = $qiniu->getLink($key);
+
+        $imgUrl='./images/brand/5938ff87b7219.png';
+//                    $action->output['fileUrl'] = $action->getWebUrl();
+        //调用七牛云组件，将图片上传到七牛云
+        $qiniu=\Yii::$app->qiniu;
+        $qiniu->uploadFile(\Yii::getAlias('@webroot').$imgUrl,$imgUrl);
+        //获取该图片在七牛云的地址
+        $url = $qiniu->getLink($imgUrl);
+        var_dump($url);
+//        $action->output['fileUrl'] =$url;
     }
 }

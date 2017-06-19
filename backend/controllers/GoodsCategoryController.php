@@ -8,7 +8,7 @@ use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 
-class GoodsCategoryController extends \yii\web\Controller
+class GoodsCategoryController extends BackendController
 {
     public function actionIndex(){
         //按tree排序是将不同一级分类分割开；按左值是按遍历顺序排序，可以顺序列出分类及子分类

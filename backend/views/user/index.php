@@ -1,9 +1,6 @@
-<?php
-/**
- * @var $this \yii\web\View
- */
-$form=\yii\bootstrap\ActiveForm::begin(['method'=>'get','action'=>'index']);?>
-<table class="table table-bordered table-hover table-striped">
+<?=\yii\bootstrap\Html::a('添加用户',['user/add'],['class'=>'btn btn-info']);?>　　
+
+<table class="table table-bordered table-hover table-striped" style="margin-top: 20px">
     <tr>
         <th>ID</th>
         <th>管理员名称</th>
@@ -25,7 +22,10 @@ $form=\yii\bootstrap\ActiveForm::begin(['method'=>'get','action'=>'index']);?>
             <td><?=$user->updated_at?></td>
             <td><?=$user->last_log_time?></td>
             <td><?=$user->last_log_ip?></td>
-            <td><?=\yii\bootstrap\Html::a('修改',['user/edit','id'=>$user->id],['class'=>'btn btn-warning btn-xs']);?>　<?=\yii\bootstrap\Html::a('删除',['user/del','id'=>$user->id],['class'=>'btn btn-danger btn-xs']);?>　
+            <td>
+                <?=\Yii::$app->user->can('user/edit')?\yii\bootstrap\Html::a('修改',['user/edit','id'=>$user->id],['class'=>'btn btn-warning btn-xs']):'';?>
+                <?=\Yii::$app->user->can('user/del')?\yii\bootstrap\Html::a('删除',['user/del','id'=>$user->id],['class'=>'btn btn-danger btn-xs']):'';?>
+                <?=\Yii::$app->user->can('user/empty-pwd')?\yii\bootstrap\Html::a('重置密码',['user/empty-pwd','id'=>$user->id],['class'=>'btn btn-danger btn-xs']):'';?>
             </td>
         </tr>
     <?php endforeach;?>

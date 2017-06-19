@@ -1,3 +1,5 @@
+<?=\yii\bootstrap\Html::a('添加',['article/add'],['class'=>'btn btn-primary btn-md']);?>
+<p></p>
 <table class="table table-bordered table-hover table-striped">
     <tr>
         <th>文章ID</th>
@@ -18,12 +20,18 @@
             <td><?=$article->sort?></td>
             <td><?=\backend\models\ArticleCategory::$allstatus[$article->status]?></td>
             <td><?=date('Y-m-d H:i:s',$article->create_time)?></td>
-            <td><?=\yii\bootstrap\Html::a('修改',['article/edit','id'=>$article->id],['class'=>'btn btn-warning btn-xs']);?> <?=\yii\bootstrap\Html::a('删除',['article/del','id'=>$article->id],['class'=>'btn btn-danger btn-xs']);?>
-                <?=\yii\bootstrap\Html::a('查看',['article/show','id'=>$article->id],['class'=>'btn btn-danger btn-xs']);?></td>
+            <td>
+            <?php
+                    echo  \Yii::$app->user->can('article/del')?\yii\bootstrap\Html::a('删除',['article/del','id'=>$article->id],['class'=>'btn btn-danger  btn-xs']):'';
+                    echo  \Yii::$app->user->can('article/edit')?\yii\bootstrap\Html::a('修改',['article/edit','id'=>$article->id],['class'=>'btn btn-danger  btn-xs']):'';
+                    echo  \Yii::$app->user->can('article/show')?\yii\bootstrap\Html::a('查看',['article/show','id'=>$article->id],['class'=>'btn btn-danger  btn-xs']):'';
+                ?>
+
+            </td>
         </tr>
     <?php endforeach;?>
 </table>
-<?=\yii\bootstrap\Html::a('添加',['article/add'],['class'=>'btn btn-primary btn-xs']);
+<?php
 echo \yii\widgets\LinkPager::widget(['pagination'=>$page]);
 ?>
 

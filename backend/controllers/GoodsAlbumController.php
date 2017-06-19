@@ -8,7 +8,7 @@ use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
-class GoodsAlbumController extends \yii\web\Controller
+class GoodsAlbumController extends BackendController
 {
     public function actionIndex($id)
     {

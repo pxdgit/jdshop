@@ -8,7 +8,7 @@ use app\models\GoodsImages;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 
-class GoodsImagesController extends \yii\web\Controller
+class GoodsImagesController extends BackendController
 {
     public function actionAdd($id){
         //获取商品id

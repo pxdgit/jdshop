@@ -10,7 +10,6 @@ echo '<div class="form-group col-lg-2">'.$form->field($search,'brand_id')->dropD
 echo \yii\bootstrap\Html::submitButton('搜索',['class'=>'btn']);
 $form=\yii\bootstrap\ActiveForm::end();
 ?>
-
 <table class="table table-bordered table-hover table-striped">
     <tr>
         <th>商品ID</th>
@@ -41,14 +40,16 @@ $form=\yii\bootstrap\ActiveForm::end();
             <td><?=\app\models\Goods::$allis_on_sale[$goods->is_on_sale]?></td>
             <td><?=\app\models\Goods::$allstatus[$goods->status]?></td>
             <td><?=$goods->sort?></td>
-            <td><?=\yii\bootstrap\Html::a('修改',['goods/edit','id'=>$goods->id],['class'=>'btn btn-warning btn-xs']);?>　<?=\yii\bootstrap\Html::a('删除',['goods/del','id'=>$goods->id],['class'=>'btn btn-danger btn-xs']);?>　
-                <?=\yii\bootstrap\Html::a('添加商品图',['goods-images/add','id'=>$goods->id],['class'=>'btn btn-success btn-xs']);?>
-                <?=\yii\bootstrap\Html::a('添加商品图2',['goods-album/index','id'=>$goods->id],['class'=>'btn btn-success btn-xs']);?>
+            <td>
+                <?=\Yii::$app->user->can('goods/edit')?\yii\bootstrap\Html::a('修改',['goods/edit','id'=>$goods->id],['class'=>'btn btn-warning btn-xs']):'';?>
+                　<?=\Yii::$app->user->can('goods/del')?\yii\bootstrap\Html::a('删除',['goods/del','id'=>$goods->id],['class'=>'btn btn-danger btn-xs']):'';?>　
+                <?=\Yii::$app->user->can('goods-album/index')?\yii\bootstrap\Html::a('添加商品图',['goods-album/index','id'=>$goods->id],['class'=>'btn btn-info btn-xs']):'';?>
             </td>
         </tr>
     <?php endforeach;?>
 </table>
-<?php  echo \yii\bootstrap\Html::a('添加',['goods/add'],['class'=>'btn btn-danger btn-xs']);?>
+<?php  echo \yii\bootstrap\Html::a('添加',['goods/add'],['class'=>'btn btn-danger btn-md']);?>
+
 
 
 

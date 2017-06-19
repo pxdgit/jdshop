@@ -27,35 +27,37 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => '文章', 'url' => ['/article/index']],
-        ['label' => '文章分类', 'url' => ['/article-category/index']],
-        ['label' => '品牌分类', 'url' => ['/brand/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/user/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/user/loginout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
+    echo \backend\widgets\MenuWidget::widget();
+//    NavBar::begin([//一个导航条开始
+//        'brandLabel' => '京西商城后台',
+//        'brandUrl' => Yii::$app->homeUrl,
+//        'options' => [
+//            'class' => 'navbar-inverse navbar-fixed-top',
+//        ],
+//    ]);
+//    $menuItems = [
+//        ['label' => '文章', 'url' => ['/article/index']],
+//        ['label' => '文章分类', 'url' => ['/article-category/index']],
+//        ['label' => '品牌分类', 'url' => ['/brand/index']],
+//        ['label' => '修改密码', 'url' => ['/user/change-pwd']],
+//    ];
+//    if (Yii::$app->user->isGuest) {
+//        $menuItems[] = ['label' => 'Login', 'url' => ['/user/login']];
+//    } else {
+//        $menuItems[] = '<li>'
+//            . Html::beginForm(['/user/loginout'], 'post')
+//            . Html::submitButton(
+//                'Logout (' . Yii::$app->user->identity->username . ')',
+//                ['class' => 'btn btn-link logout']
+//            )
+//            . Html::endForm()
+//            . '</li>';
+//    }
+//    echo Nav::widget([
+//        'options' => ['class' => 'navbar-nav navbar-right'],
+//        'items' => $menuItems,
+//    ]);
+//    NavBar::end();//导航条结束
     ?>
 
     <div class="container">

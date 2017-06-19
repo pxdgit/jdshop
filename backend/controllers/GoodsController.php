@@ -3,20 +3,27 @@
 namespace backend\controllers;
 
 use app\models\Goods;
-use app\models\GoodsAlbum;
 use app\models\GoodsCategory;
 use app\models\GoodsDayCount;
 use app\models\GoodsIntro;
 use app\models\Search;
+use backend\components\RbacFilter;
 use backend\models\Brand;
 use kucha\ueditor\UEditorAction;
 use xj\uploadify\UploadAction;
-use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
-use yii\web\Request;
 
-class GoodsController extends \yii\web\Controller
+
+class GoodsController extends BackendController
 {
+    public function behaviors(){
+    return [
+        'accessFilter'=>[
+            'class'=>RbacFilter::className(),
+            'only'=>['index','add','edit','del']
+        ],
+    ];
+ }
     public function actionIndex()
     {
         $search=new Search();
@@ -26,13 +33,13 @@ class GoodsController extends \yii\web\Controller
                 $query->andWhere(['like','name',$search['name']]);
             }
             if($search['sn']!=null){
-                $query->andWhere(['like','sn',$search['name']]);
+                $query->andWhere(['like','sn',$search['sn']]);
             }
             if($search['goods_category_id']!=null){
                 $query->andWhere(['like','goods_category_id',$search['goods_category_id']]);
             }
             if($search['brand_id']!=null){
-                $query->andWhere(['like','brand_id',$search['brand_id']]);//andWhere(like在前是用的数组,'关键字Like字段名)'是用字符串
+                $query->andWhere(['like','brand_id',$search['brand_id']]);//andWhere(like在前是用的数组,'关键字  Like  字段名)'是用字符串
         }
         }
         $model=$query->all();
@@ -60,6 +67,7 @@ class GoodsController extends \yii\web\Controller
            $model->save();
            $intromodel->goods_id=$model->id;
            $intromodel->save();
+           \Yii::$app->session->setFlash('success', '添加成功');
            return $this->redirect(['goods/index']);
        }
         $goodscate=ArrayHelper::merge([['id'=>0,'name'=>'顶级分类','parent_id'=>0]],GoodsCategory::find()->all());
@@ -74,6 +82,7 @@ class GoodsController extends \yii\web\Controller
            $model->save();
            $intromodel->goods_id=$model->id;
            $intromodel->save();
+           \Yii::$app->session->setFlash('success', '修改成功');
            return $this->redirect(['goods/index']);
        }
         $goodscate=ArrayHelper::merge([['id'=>0,'name'=>'顶级分类','parent_id'=>0]],GoodsCategory::find()->all());
@@ -84,6 +93,7 @@ class GoodsController extends \yii\web\Controller
         $model=Goods::findOne(['id'=>$id]);
         $model->status=0;
         $model->save();
+        \Yii::$app->session->setFlash('success', '删除成功');
         return $this->redirect(['goods/index']);
     }
     public function actions()
@@ -100,11 +110,11 @@ class GoodsController extends \yii\web\Controller
                 //END METHOD
                 //BEGIN CLOSURE BY-HASH
                 'overwriteIfExist' => true,
-                'format' => function (UploadAction $action) {
-                    $fileext = $action->uploadfile->getExtension();
-                    $filename = sha1_file($action->uploadfile->tempName);
-                    return "{$filename}.{$fileext}";
-                },
+//                'format' => function (UploadAction $action) {
+//                    $fileext = $action->uploadfile->getExtension();
+//                    $filename = sha1_file($action->uploadfile->tempName);
+//                    return "{$filename}.{$fileext}";
+//                },
                 //END CLOSURE BY-HASH
                 //BEGIN CLOSURE BY TIME
                 'format' => function (UploadAction $action) {

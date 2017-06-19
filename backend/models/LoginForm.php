@@ -52,4 +52,5 @@ class LoginForm extends Model
                 $this->addError('username','用户名或密码错误');
         }
     }
+
 }

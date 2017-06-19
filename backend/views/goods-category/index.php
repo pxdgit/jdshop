@@ -1,3 +1,6 @@
+<?=\yii\bootstrap\Html::a('添加',['goods-category/add'],['class'=>'btn btn-danger btn-md']);?>
+<p></p>
+
 <table class="cate table table-bordered table-hover table-striped">
     <tr>
         <th>分类ID</th>
@@ -11,7 +14,9 @@
               <span class="toggle_cate glyphicon glyphicon-chevron-down" style="float:right;"></span>
             </td>
 
-            <td><?=\yii\bootstrap\Html::a('修改',['goods-category/edit','id'=>$model->id],['class'=>'btn btn-warning btn-xs']);?> <?=\yii\bootstrap\Html::a('删除',['goods-category/del','id'=>$model->id],['class'=>'btn btn-danger btn-xs']);?> </td>
+            <td>
+                <?=\Yii::$app->user->can('goods-category/edit')?\yii\bootstrap\Html::a('修改',['goods-category/edit','id'=>$model->id],['class'=>'btn btn-warning btn-xs']):'';?>
+                <?=\Yii::$app->user->can('goods-category/del')?\yii\bootstrap\Html::a('删除',['goods-category/del','id'=>$model->id],['class'=>'btn btn-danger btn-xs']):'';?> </td>
         </tr>
     <?php endforeach;?>
 </table>
@@ -42,7 +47,6 @@ $js=<<<JS
 JS;
 $this->registerJS($js);
 ?>
-<?=\yii\bootstrap\Html::a('添加',['goods-category/add'],['class'=>'btn btn-danger btn-xs']);
 
 
 

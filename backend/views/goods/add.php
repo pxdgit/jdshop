@@ -68,6 +68,8 @@ $js=new \yii\web\JsExpression(
     var zNodes = {$znode};
       zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
       zTreeObj.expandAll(1);//展开分类
+    var node=zTreeObj.getNodeByParam("id",$('#goods-goods_category_id').val(),null);//获取id与分类父id相同的节点
+zTreeObj.selectNode(node)//选择当前节点的父节点
 JS
 );
 $this->registerJs($js);

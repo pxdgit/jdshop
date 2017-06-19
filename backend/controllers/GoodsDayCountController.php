@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-class GoodsDayCountController extends \yii\web\Controller
+class GoodsDayCountController extends BackendController
 {
     public function actionIndex()
     {
