@@ -10,6 +10,7 @@ use yii\db\ActiveQuery;
 use yii\db\BaseActiveRecord;
 
 
+
 /**
  * This is the model class for table "user".
  *
@@ -194,6 +195,8 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->auth_key === $authKey;
 
     }
+
+
 
 
 }

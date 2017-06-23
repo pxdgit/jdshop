@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use app\models\GoodsCategory;
+use backend\models\GoodsCategory;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;

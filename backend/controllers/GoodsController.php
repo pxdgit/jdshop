@@ -2,11 +2,11 @@
 
 namespace backend\controllers;
 
-use app\models\Goods;
-use app\models\GoodsCategory;
-use app\models\GoodsDayCount;
-use app\models\GoodsIntro;
-use app\models\Search;
+use backend\models\Goods;
+use backend\models\GoodsCategory;
+use backend\models\GoodsDayCount;
+use backend\models\GoodsIntro;
+use backend\models\Search;
 use backend\components\RbacFilter;
 use backend\models\Brand;
 use kucha\ueditor\UEditorAction;
@@ -144,7 +144,12 @@ class GoodsController extends BackendController
                 },
             ],
             'upload' => [
-                'class' =>UEditorAction::className(),
+                'class' => 'kucha\ueditor\UEditorAction',
+                'config' => [
+                    "imageUrlPrefix"  => "http://admin.jx.com",//图片访问路径前缀
+                    "imagePathFormat" => "/upload/intro/{yyyy}{mm}{dd}/{time}{rand:6}",//上传保存路径
+                    "imageRoot" => \Yii::getAlias("@webroot"),
+                ],
             ]
         ];
     }

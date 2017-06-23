@@ -28,7 +28,8 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
     public $password;
     public $repassword;
     public $code;
-    public $agree;
+    public $agree=0;
+    public $smscaptcha;
     public static function tableName()
     {
         return 'member';
@@ -40,7 +41,7 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'tel', 'password', 'repassword','repassword', 'email'], 'required'],
+            [['username', 'tel', 'password', 'repassword','repassword', 'email','smscaptcha'], 'required'],
             [['status', 'created_at', 'updated_at', 'last_login_time', 'last_login_ip'], 'integer'],
             [['username'], 'string', 'max' => 50],
             [['auth_key'], 'string', 'max' => 32],
@@ -52,7 +53,7 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
             ['code','captcha','captchaAction'=>'site/captcha'],
             [['tel'],'match','pattern'=>'/^1[3578]\d{9}$/','message'=>'格式不正确'],
             ['repassword','compare','compareAttribute'=>'password','message'=>'两次输入密码不一致'],
-
+            ['smscaptcha','validatasms'],
         ];
     }
 
@@ -75,7 +76,8 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
             'last_login_time' => '最后登录时间',
             'last_login_ip' => '最后登录ip',
             'code：'=>'验证码',
-            'agree'=>' '
+            'agree'=>' ',
+            'smscaptcha'=>'短信验证：'
         ];
     }
     public function beforeSave($insert){
@@ -88,6 +90,11 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
             $this->updated_at=time();
         }
         return parent::beforeSave($insert);
+    }
+    public function validatasms(){
+        if($this->smscaptcha!=\Yii::$app->cache->get('tel_'.$this->tel)){
+            $this->addError('smscaptcha','验证码不正确,请重试');
+        }
     }
 
     /**

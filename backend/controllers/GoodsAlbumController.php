@@ -2,8 +2,8 @@
 
 namespace backend\controllers;
 
-use app\models\Goods;
-use app\models\GoodsAlbum;
+use backend\models\Goods;
+use backend\models\GoodsAlbum;
 use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\UploadedFile;
@@ -59,7 +59,7 @@ class GoodsAlbumController extends BackendController
 // $pathinfo = pathinfo($imageUrl);
 // $caption = $pathinfo['basename'];
 // $size = $_FILES['Banner']['size']['banner_url'][$i];
-                $p1[$i] = $filename;
+                $p1[$i] =$filename;
                 $p2[$i] = ['url' => $url, 'key' => $key];
 
             }

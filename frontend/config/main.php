@@ -45,7 +45,14 @@ return [
             'rules' => [//自定义路由规则
             ],
         ],
-
+        //配置短信组件
+        'sms'=>[
+            'class'=>\frontend\components\Sms::className(),
+            'app_key'=>'24479817',
+            'app_secret'=>'68e1d1be7905cf3552800d4c77492310',
+            'sign_name'=>'彭雪',
+            'templatecode'=>'SMS_71540143',
+        ]
     ],
     'params' => $params,
 ];

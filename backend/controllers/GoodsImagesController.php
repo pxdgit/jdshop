@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 
-use app\models\Goods;
-use app\models\GoodsImages;
+use backend\models\Goods;
+use backend\models\GoodsImages;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 

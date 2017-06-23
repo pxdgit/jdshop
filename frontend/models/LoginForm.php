@@ -38,6 +38,7 @@ class LoginForm extends Model
         if($menber){
             if(!\Yii::$app->security->validatePassword($this->password,$menber->password_hash)){
                 $this->addError('username','用户名或密码不正确');
+                return false;
             }else{
                 $duration=$this->rememberme?7*24*3600:0;
                 \Yii::$app->user->login($menber,$duration);
@@ -47,7 +48,8 @@ class LoginForm extends Model
                 $menber->save(false);
                 return true;
             }
-        }
-        return false;
+                  $this->addError('username','用户名或密码不正确');
+        }        return false;
+
     }
 }

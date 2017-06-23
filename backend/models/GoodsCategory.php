@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use backend\models\GoodsQuery;
 
@@ -79,10 +79,10 @@ class GoodsCategory extends \yii\db\ActiveRecord
     {
         return new GoodsQuery(get_called_class());
     }
-//    public static function getgoodsname($id){
-//        return self::findOne(['id'=>$id])->name;
-//    }
     public function getgoodsname(){
         return $this->hasOne(GoodsCategory::className(),['id'=>'parent_id']);
+    }
+    public function getchildren(){
+        return $this->hasMany(GoodsCategory::className(),['parent_id'=>'id']);
     }
 }

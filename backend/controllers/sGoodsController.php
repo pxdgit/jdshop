@@ -2,12 +2,12 @@
 
 namespace backend\controllers;
 
-use app\models\Goods;
-use app\models\GoodsAlbum;
-use app\models\GoodsCategory;
-use app\models\GoodsDayCount;
-use app\models\GoodsIntro;
-use app\models\Search;
+use backend\models\Goods;
+use backend\models\GoodsAlbum;
+use backend\models\GoodsCategory;
+use backend\models\GoodsDayCount;
+use backend\models\GoodsIntro;
+use backend\models\Search;
 use backend\models\Brand;
 use kucha\ueditor\UEditorAction;
 use xj\uploadify\UploadAction;
