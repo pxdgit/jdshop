@@ -54,7 +54,7 @@ JS
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+                <li>您好，欢迎来到京西！<?php \Yii::$app->user->identity?'':'[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>]'?> </li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -105,7 +105,7 @@ JS
                 </dt>
                 <dd>
                     <div class="prompt">
-                        您好，请<a href="">登录</a>
+                        <?=\Yii::$app->user->identity?'尊敬的：'.\Yii::$app->user->identity->username:'请<a href="/member/login">登录</a>'?>
                     </div>
                     <div class="uclist mt10">
                         <ul class="list1 fl">
@@ -155,10 +155,43 @@ JS
     </div>
     <!-- 头部上半部分 end -->
 
+    <!-- 导航条部分 start -->
+    <div class="nav w1210 bc mt10">
+        <!--  商品分类部分 start-->
+        <div class="category fl cat1"> <!-- 非首页，需要添加cat1类 -->
+            <div class="cat_hd off">  <!-- 注意，首页在此div上只需要添加cat_hd类，非首页，默认收缩分类时添加上off类，鼠标滑过时展开菜单则将off类换成on类 -->
+                <h2>全部商品分类</h2>
+                <em></em>
+            </div>
+            <div class="cat_bd none">
+                <?=\frontend\widgets\CategoryWidget::widget();?>
+            </div>
+
+        </div>
+        <!--  商品分类部分 end-->
+
+
+
+
+        <div class="navitems fl">
+            <ul class="fl">
+                <li class="current"><a href="">首页</a></li>
+                <li><a href="">电脑频道</a></li>
+                <li><a href="">家用电器</a></li>
+                <li><a href="">品牌大全</a></li>
+                <li><a href="">团购</a></li>
+                <li><a href="">积分商城</a></li>
+                <li><a href="">夺宝奇兵</a></li>
+            </ul>
+            <div class="right_corner fl"></div>
+        </div>
+    </div>
+    <!-- 导航条部分 end -->
+</div>
+<!-- 头部 end-->
+
+
     <div style="clear:both;"></div>
-
-
-
 
 
 <?=$content;?>

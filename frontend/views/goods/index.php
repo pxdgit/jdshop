@@ -1,8 +1,9 @@
 <?php
 /**
- * @var \yii\web\View
- * */
+ * @var $this \yii\web\View
+ */
 ?>
+
 <!-- 商品页面主体 start -->
 <div class="main w1210 mt10 bc">
     <!-- 面包屑导航 start -->
@@ -149,15 +150,16 @@
                     <li><span>上架时间：</span><?=date('Y-m-d',$model->create_time)?></li>
                     <li class="star"><span>商品评分：</span> <strong></strong><a href="">(已有21人评价)</a></li> <!-- 此处的星级切换css即可 默认为5星 star4 表示4星 star3 表示3星 star2表示2星 star1表示1星 -->
                 </ul>
-                <form action="" method="post" class="choose">
+                <form action="<?=\yii\helpers\Url::to(['/cart/add-cart'])?>" method="post" class="choose">
                     <ul>
-
                         <li>
                             <dl>
                                 <dt>购买数量：</dt>
                                 <dd>
                                     <a href="javascript:;" id="reduce_num"></a>
                                     <input type="text" name="amount" value="1" class="amount"/>
+                                    <input type="hidden" value="<?=$model->id?>" name="goods_id"/>
+                                    <input type="hidden" name="_csrf-frontend" value="<?= Yii::$app->request->csrfToken?>">
                                     <a href="javascript:;" id="add_num"></a>
                                 </dd>
                             </dl>
@@ -439,4 +441,3 @@
 
 </div>
 <!-- 商品页面主体 end -->
-	

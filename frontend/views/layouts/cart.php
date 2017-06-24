@@ -10,7 +10,7 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
-\frontend\assets\LoginAsset::register($this);
+\frontend\assets\CartAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -23,8 +23,6 @@ use common\widgets\Alert;
 </head>
 <body>
 <?php $this->beginBody() ?>
-
-
 <!-- 顶部导航 start -->
 <div class="topnav">
     <div class="topnav_bd w990 bc">
@@ -33,7 +31,7 @@ use common\widgets\Alert;
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！<?=\Yii::$app->user->identity?' ':'[<a href="/member/login">登录</a>] [<a href="/member/register">免费注册</a>]'?> </li>
+                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -47,17 +45,11 @@ use common\widgets\Alert;
 
 <div style="clear:both;"></div>
 
-<!-- 页面头部 start -->
-<div class="header w990 bc mt15">
-    <div class="logo w990">
-        <h2 class="fl"><a href="index.html"><?=Html::img('@web/images/logo.png',['alt'=>'京西商城'])?></a></h2>
-    </div>
-</div>
-<!-- 页面头部 end -->
 
-<!--主体开始-->
-<?= $content ?>
-<!--主体结束-->
+<?=$content;?>
+
+
+
 
 <div style="clear:both;"></div>
 <!-- 底部版权 start -->
@@ -79,17 +71,13 @@ use common\widgets\Alert;
         © 2005-2013 京东网上商城 版权所有，并保留所有权利。  ICP备案证书号:京ICP证070359号
     </p>
     <p class="auth">
-        <a href=""><?=Html::img('@web/images/xin.png')?></a>
-        <a href=""><?=Html::img('@web/images/kexin.jpg')?></a>
-        <a href=""><?=Html::img('@web/images/police.jpg')?></a>
-        <a href=""><?=Html::img('@web/images/beian.gif')?></a>
+        <a href=""><img src="images/xin.png" alt="" /></a>
+        <a href=""><img src="images/kexin.jpg" alt="" /></a>
+        <a href=""><img src="images/police.jpg" alt="" /></a>
+        <a href=""><img src="images/beian.gif" alt="" /></a>
     </p>
 </div>
 <!-- 底部版权 end -->
-
-
-
-
 
 <?php $this->endBody() ?>
 </body>

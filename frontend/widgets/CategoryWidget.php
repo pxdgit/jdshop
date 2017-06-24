@@ -17,7 +17,7 @@ class CategoryWidget extends Widget
             echo '数据库';
             $categories=GoodsCategory::findAll(['parent_id'=>0]);
             $category_html=$this->renderFile('@app/widgets/view/category.php',['firstcates'=>$categories]);
-            $redis->set('category_html',$category_html,7*24*3600);//每七天更新一次分类列表
+            $redis->set('category_html',$category_html,3600);//每七天更新一次分类列表
         }
         return $category_html;
     }

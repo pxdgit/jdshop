@@ -31,7 +31,7 @@ class MemberController extends \yii\web\Controller
         $model=new  LoginForm();
         if($model->load(\Yii::$app->request->post())&&$model->validate()){
               if($model->login()){
-                  return $this->redirect('index');
+                  return $this->redirect(['index/index']);
               }
         }
         return $this->render('login',['model'=>$model]);

@@ -1,37 +1,4 @@
-<!-- 导航条部分 start -->
-<div class="nav w1210 bc mt10">
-    <!--  商品分类部分 start-->
-    <div class="category fl cat1"> <!-- 非首页，需要添加cat1类 -->
-        <div class="cat_hd">  <!-- 注意，首页在此div上只需要添加cat_hd类，非首页，默认收缩分类时添加上off类，鼠标滑过时展开菜单则将off类换成on类 -->
-            <h2>全部商品分类</h2>
-            <em></em>
-        </div>
-        <div class="cat_bd none">
-                <?=\frontend\widgets\CategoryWidget::widget();?>
-        </div>
 
-    </div>
-    <!--  商品分类部分 end-->
-
-
-
-
-    <div class="navitems fl">
-        <ul class="fl">
-            <li class="current"><a href="">首页</a></li>
-            <li><a href="">电脑频道</a></li>
-            <li><a href="">家用电器</a></li>
-            <li><a href="">品牌大全</a></li>
-            <li><a href="">团购</a></li>
-            <li><a href="">积分商城</a></li>
-            <li><a href="">夺宝奇兵</a></li>
-        </ul>
-        <div class="right_corner fl"></div>
-    </div>
-</div>
-<!-- 导航条部分 end -->
-</div>
-<!-- 头部 end-->
 
 <div style="clear:both;"></div>
 <!-- 列表主体 start -->

@@ -28,7 +28,7 @@ class BrandController extends BackendController
         $total=$query->count();
         $page=new Pagination([
             'totalCount'=>$total,
-            'defaultPageSize'=>'1'
+            'defaultPageSize'=>'10'
         ]);
         $model=$query->offset($page->offset)->limit($page->limit)->all();
         return $this->render('index',['model'=>$model,'page'=>$page]);

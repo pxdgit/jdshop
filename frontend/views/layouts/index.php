@@ -34,7 +34,7 @@ use common\widgets\Alert;
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+                <li>您好，欢迎来到京西！<?=\Yii::$app->user->identity?' ':'[<a href="/member/login">登录</a>] [<a href="/member/register">免费注册</a>]'?> </li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -85,13 +85,13 @@ use common\widgets\Alert;
                 </dt>
                 <dd>
                     <div class="prompt">
-                        您好，请<a href="">登录</a>
+                        <?=\Yii::$app->user->identity?'尊敬的：'.\Yii::$app->user->identity->username:'请<a href="">登录</a>'?>
                     </div>
                     <div class="uclist mt10">
                         <ul class="list1 fl">
                             <li><a href="">用户信息></a></li>
                             <li><a href="">我的订单></a></li>
-                            <li><a href="">收货地址></a></li>
+                            <li><a href="/address/index">收货地址></a></li>
                             <li><a href="">我的收藏></a></li>
                         </ul>
 

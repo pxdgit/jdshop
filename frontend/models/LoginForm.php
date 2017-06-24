@@ -46,10 +46,31 @@ class LoginForm extends Model
                 $menber->last_login_time=time();
                 $menber->auth_key=$menber->getAuthKey();
                 $menber->save(false);
+                $cookies=\Yii::$app->request->cookies;
+
+                if($cookies->get('cart')) {//cookie中是否已有数据//有则取出反序列化为数组
+                    $cart = unserialize($cookies->get('cart'));
+                    foreach ($cart as $k => $v) {
+                        if ($cart = Cart::findOne(['goods_id' => $k,'member_id'=>\Yii::$app->user->id])) {
+                            $cart->amount += $v;
+                        } else {
+                            $cart = new Cart();
+                            $cart->goods_id = $k;
+                            $cart->amount = $v;
+                            $cart->member_id = \Yii::$app->user->id;
+                        }
+
+                        $cart->save();
+                    }
+                    $cookies = \Yii::$app->response->cookies;
+                    $cookies->remove('cart');
+                }
+
+                }
                 return true;
             }
-                  $this->addError('username','用户名或密码不正确');
-        }        return false;
+                $this->addError('username','用户名或密码不正确');
+                return false;
 
     }
 }
