@@ -25,9 +25,8 @@ class CartAsset extends AssetBundle
         "style/success.css"
     ];
     public $js = [
-        "js/jquery-1.8.3.min.js",
         "js/cart2.js",
-        "js/cart1.js"
+        "js/cart1.js",
     ];
     public $depends = [
         '\yii\web\JqueryAsset',

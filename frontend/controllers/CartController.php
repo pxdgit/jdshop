@@ -10,8 +10,12 @@ namespace frontend\controllers;
 
 
 use backend\models\Goods;
+use frontend\models\Address;
 use frontend\models\Cart;
+use frontend\models\Num;
 use frontend\models\Order;
+use frontend\models\OrderGoods;
+use yii\db\Exception;
 use yii\web\Controller;
 use yii\web\Cookie;
 use yii\web\NotFoundHttpException;
@@ -19,6 +23,7 @@ use yii\web\NotFoundHttpException;
 class CartController extends  Controller
 {
     public $layout='cart';
+    public $num=[];
     public function actionAddCart()
     {
         $goods_id = \Yii::$app->request->post('goods_id');
@@ -46,26 +51,20 @@ class CartController extends  Controller
                 'value' => serialize($cart)
             ]);
             $cookies->add($cookie);
-        }else{
-            if($model=Cart::findOne(['member_id'=>\Yii::$app->user->id,'goods_id'=>$goods_id])){
-                $model->amount+=$amount;
-            }else{
-                $model=new Cart();
-                $model->member_id=\Yii::$app->user->id;
-                $model->goods_id=$goods_id;
-                $model->amount+=$amount;
+        } else {
+            if ($model = Cart::findOne(['member_id' => \Yii::$app->user->id, 'goods_id' => $goods_id])) {
+                $model->amount += $amount;
+            } else {
+                $model = new Cart();
+                $model->member_id = \Yii::$app->user->id;
+                $model->goods_id = $goods_id;
+                $model->amount += $amount;
             }
             $model->save();
 
         }
         return $this->redirect(['cart/shop-cart']);
     }
-
-
-
-
-
-
 
     public function actionUpdate(){
         $goods_id=\Yii::$app->request->post('goods_id');
@@ -108,6 +107,7 @@ class CartController extends  Controller
         }
     }
     public function actionShopCart(){
+        $model=[];
         if($member_id=\Yii::$app->user->id){
             $allgoods=Cart::findAll(['member_id'=>$member_id]);
             foreach ($allgoods as $v){
@@ -133,7 +133,53 @@ class CartController extends  Controller
 
 
     public function actionOrderMsg(){
-        return $this->render('ordermsg');
+        if(\Yii::$app->user->identity){
+            $model=new Order();
+            $goods=Cart::findAll(['member_id'=>\Yii::$app->user->id]);
+            $allgoods=[];
+            foreach ($goods as $v){
+                $goodsone=Goods::findOne(['id'=>$v->goods_id])->attributes;
+                $goodsone['amount']=$v->amount;
+                $allgoods[]=$goodsone;
+            }
+            if($model->load(\Yii::$app->request->post())&&$model->validate()){
+                $transaction=\Yii::$app->db->beginTransaction();
+                try{
+                        $model->save();
+                        foreach ($allgoods as $onegoods){
+                            $order_goods=new OrderGoods();
+                            $order_goods->order_id=$model->id;
+                            $order_goods->goods_id=$onegoods['id'];
+                            $order_goods->goods_name=$onegoods['name'];
+                            $order_goods->logo=$onegoods['logo'];
+                            $order_goods->price=$onegoods['shop_price'];
+                            $order_goods->amount=$onegoods['amount'];
+                            if($order_goods->amount>$onegoods['stock']) {
+//                                throw new \yii\base\Exception('库存不足');
+                                throw new Exception('库存不足');
+                            }
+                            $order_goods->total=$order_goods->price*$order_goods->amount;
+                            $order_goods->save();
+                            $newgoods=Goods::findOne(['id'=>$onegoods['id']]);
+                            $newgoods->stock=$onegoods['stock']-$order_goods->amount;
+                            $newgoods->save();
+                        }
+                        foreach(Cart::findAll(['member_id'=>\Yii::$app->user->id]) as $cart){
+                            $cart->delete();
+                        }
+                        $this->redirect(['cart/order-fin']);
+                    $transaction->commit();//提交事务会真正的执行数据库操作
+                }catch (Exception $e) {
+                    $transaction->rollback();//如果操作失败, 数据回滚
+                }
+            }
+              $alladdress=Address::findAll(['member_id'=>\Yii::$app->user->id]);
+
+
+        return $this->render('ordermsg',['model'=>$model,'alladdress'=>$alladdress,'allgoods'=>$allgoods]);}
+        else{
+            $this->redirect(['/member/login']);
+        }
     }
     public function actionOrderFin(){
         return $this->render('orderfin');
@@ -147,4 +193,37 @@ class CartController extends  Controller
         }
         var_dump($cart);
     }
+    public function actionGame(){
+        $this->layout=false;
+        $model=new Num();
+        $arr=[];
+        for($i=1;$i<=10;$i++){
+            $tmp = rand(1,9);
+            if (!in_array($tmp, $arr)) {
+                $arr[]=$tmp;
+            }
+        }
+        $num=array_slice($arr,0,4);
+        $cache=\Yii::$app->cache;
+        if($cache->get('num')==null){
+            $cache->set('num',$num);
+        }
+        var_dump($cache->get('num'));
+        $nums=$cache->get('num');
+        $suma=0;
+        $sumb=0;
+        if($model->load(\Yii::$app->request->post())&&$model->validate()){
+            foreach ($model as $k=>$num){
+                if(in_array($num,$nums)){
+                    $suma+=1;
+                }
+                $n=substr($k,-1);
+              if($num==$nums[$n]){
+                  $sumb+=1;
+              }
+            }
+        }
+        return $this->render('game',['model'=>$model,'suma'=>$suma,'sumb'=>$sumb]);
+    }
+
 }

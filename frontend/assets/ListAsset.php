@@ -22,6 +22,7 @@ class ListAsset extends AssetBundle
         'style/header.css',
         'style/home.css',
         'style/address.css',
+        "style/order.css",
         'style/bottomnav.css',
         'style/footer.css',
 
@@ -31,6 +32,7 @@ class ListAsset extends AssetBundle
 
         "style/goods.css",
         "style/jqzoom.css"
+
 
     ];
     public $js = [

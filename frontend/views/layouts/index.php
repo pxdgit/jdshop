@@ -85,12 +85,12 @@ use common\widgets\Alert;
                 </dt>
                 <dd>
                     <div class="prompt">
-                        <?=\Yii::$app->user->identity?'尊敬的：'.\Yii::$app->user->identity->username:'请<a href="">登录</a>'?>
+                        <?=\Yii::$app->user->identity?'尊敬的：'.\Yii::$app->user->identity->username:'请<a href="/member/login">登录</a>'?>
                     </div>
                     <div class="uclist mt10">
                         <ul class="list1 fl">
                             <li><a href="">用户信息></a></li>
-                            <li><a href="">我的订单></a></li>
+                            <li><a href="/cart/shop-cart">我的订单></a></li>
                             <li><a href="/address/index">收货地址></a></li>
                             <li><a href="">我的收藏></a></li>
                         </ul>
@@ -121,7 +121,7 @@ use common\widgets\Alert;
         <div class="cart fl">
             <dl>
                 <dt>
-                    <a href="">去购物车结算</a>
+                    <a href="<?php if(Yii::$app->user->identity){echo '/cart/shop-cart';}else{echo '/member/login';}?>">去购物车结算</a>
                     <b></b>
                 </dt>
                 <dd>

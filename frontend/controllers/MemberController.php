@@ -4,8 +4,12 @@ namespace frontend\controllers;
 
 
 
+use frontend\models\Cart;
+use frontend\models\Goods;
 use frontend\models\LoginForm;
 use frontend\models\Member;
+use frontend\models\Order;
+use frontend\models\OrderGoods;
 use yii\helpers\Json;
 
 //阿里大于
@@ -92,5 +96,24 @@ class MemberController extends \yii\web\Controller
              ->setHtmlBody('ssssssss')
              ->send();
         var_dump($result);
+    }
+
+    public function actionOrder(){
+        $this->layout='list';
+        $model=Order::findAll(['member_id'=>\Yii::$app->user->id]);
+        $nomoney=Order::find()->where(['member_id'=>\Yii::$app->user->id,'status'=>1])->count();
+        $confirm=Order::find()->where(['member_id'=>\Yii::$app->user->id,'status'=>3])->count();
+       return $this->render('order',['model'=>$model]);
+    }
+    public function actionShow($id){
+        $this->layout='list';
+        $model=OrderGoods::find()->where(['order_id'=>$id])->all();
+        return $this->render('show',['model'=>$model]);
+    }
+    public function actionConfirm(){
+        $id=\Yii::$app->request->post('id');
+        $model=Order::findOne(['id'=>$id]);
+        $model->status=4;
+        $model->save();
     }
 }
