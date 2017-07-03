@@ -24,7 +24,6 @@ class MemberController extends \yii\web\Controller
     public function actionRegister()
     {
         $model=new Member();
-        var_dump(\Yii::$app->request->post('smscaptcha'));exit;
         if($model->load(\Yii::$app->request->post())&&$model->validate()){
                $model->save(false);
             return $this->redirect('index');

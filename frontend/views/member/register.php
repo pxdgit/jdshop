@@ -32,7 +32,7 @@
 //                    </li>';
            $button= '<input type="button"  id="get_captcha" value="获取验证码" style="height: 25px;padding:3px 8px"/>';
 //                $button=\yii\helpers\Html::button('获取验证码',['id'=>'send_sms_button']);
-                echo  $form->field($model,'smscaptcha',['template'=>"{label}\n{input} $button\n{hint}\n{error}"])->textInput(['placeholder'=>"请输入短信验证码",'name'=>"captcha" ,'disabled '=>"disabled", 'id'=>"captcha",'class'=>"txt"]);
+                echo  $form->field($model,'smscaptcha',['template'=>"{label}\n{input} $button\n{hint}\n{error}"])->textInput(['placeholder'=>"请输入短信验证码",'disabled '=>"disabled", 'id'=>"captcha",'class'=>"txt"]);
 
 
                 echo $form->field($model,'code',['options'=>['class'=>'checkcode']])->widget(\yii\captcha\Captcha::className(),['template'=>'{input}{image}']);
