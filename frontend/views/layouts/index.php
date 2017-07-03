@@ -34,7 +34,16 @@ use common\widgets\Alert;
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！<?=\Yii::$app->user->identity?' ':'[<a href="/member/login">登录</a>] [<a href="/member/register">免费注册</a>]'?> </li>
+                <?php echo Yii::getAlias('@web').'member/login'?>
+                <li>您好，欢迎来到京西！<?php
+                    if(Yii::$app->user->isGuest){
+                        echo Html::a('[ 登录 ]',['member/login']);
+                        echo Html::a('[ 免费注册 ]',['member/register']);
+                    }else{
+                        echo Html::a(' 注销登陆 ('.Yii::$app->user->identity->username.') ',['member/logout']);
+                    }
+                    ?>
+                </li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
