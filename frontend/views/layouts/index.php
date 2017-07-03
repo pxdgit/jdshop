@@ -100,8 +100,12 @@ use common\widgets\Alert;
                 </dt>
                 <dd>
                     <div class="prompt">
-                        <?=\Yii::$app->user->identity?'尊敬的：'.\Yii::$app->user->identity->username:'请<a href="                <?php echo Yii::getAlias(\'@web\').\'member/login\'?>
-">登录</a>'?>
+
+                        <?php if(\Yii::$app->user->identity){
+                            echo '尊敬的：'.\Yii::$app->user->identity->username;
+                        }else{
+                            echo '请<a href='.Yii::getAlias('@web').'"/member/login">登录</a>';
+}?>
                     </div>
                     <div class="uclist mt10">
                         <ul class="list1 fl">
