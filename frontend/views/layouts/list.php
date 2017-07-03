@@ -54,7 +54,15 @@ JS
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！<?php \Yii::$app->user->identity?'':'[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>]'?> </li>
+                <li>您好，欢迎来到京西！<?php
+                    if(Yii::$app->user->isGuest){
+                        echo Html::a('[ 登录 ]',['member/login']);
+                        echo Html::a('[ 免费注册 ]',['member/register']);
+                    }else{
+                        echo Html::a(' 注销登陆 ('.Yii::$app->user->identity->username.') ',['member/logout']);
+                    }
+                    ?>
+                </li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -105,7 +113,11 @@ JS
                 </dt>
                 <dd>
                     <div class="prompt">
-                        <?=\Yii::$app->user->identity?'尊敬的：'.\Yii::$app->user->identity->username:'请<a href="/member/login">登录</a>'?>
+                        <?php if(\Yii::$app->user->identity){
+                            echo '尊敬的：'.\Yii::$app->user->identity->username;
+                        }else{
+                            echo '请<a href='.Yii::getAlias('@web').'/member/login>登录</a>';
+                        }?>
                     </div>
                     <div class="uclist mt10">
                         <ul class="list1 fl">

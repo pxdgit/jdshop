@@ -101,7 +101,11 @@ use common\widgets\Alert;
                 <dd>
                     <div class="prompt">
 
-
+                        <?php if(\Yii::$app->user->identity){
+                            echo '尊敬的：'.\Yii::$app->user->identity->username;
+                        }else{
+                            echo '请<a href='.Yii::getAlias('@web').'/member/login>登录</a>';
+}?>
                     </div>
                     <div class="uclist mt10">
                         <ul class="list1 fl">
