@@ -28,14 +28,14 @@ class UserController extends \yii\web\Controller
     public function actionAdd()
     {
         $model=new User(['scenario'=>User::SCENARIO_ADD]);
-        if($model->load(\Yii::$app->request->post()) && $model->validate()){
-            if($model->password==$model->repassword){
-            $model->password_hash=\Yii::$app->security->generatePasswordHash($model->password);
-            $model->save();
-            $model->addrole($model);
-            \Yii::$app->session->setFlash('seccuess','添加成功');
-            return $this->redirect(['user/index']);}
-        }
+//        if($model->load(\Yii::$app->request->post()) && $model->validate()){
+//            if($model->password==$model->repassword){
+//            $model->password_hash=\Yii::$app->security->generatePasswordHash($model->password);
+//            $model->save();
+//            $model->addrole($model);
+//            \Yii::$app->session->setFlash('seccuess','添加成功');
+//            return $this->redirect(['user/index']);}
+//        }
         return $this->render('add',['model'=>$model]);
     }
     //修改用户

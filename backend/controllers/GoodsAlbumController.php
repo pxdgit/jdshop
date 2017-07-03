@@ -46,7 +46,7 @@ class GoodsAlbumController extends BackendController
                 $model->imgfiles=UploadedFile::getInstance($model,'imgfiles');//实例化要在验证前啊啊啊啊啊啊啊
                 if($model->validate()){
                     $filename='/images/goods/'.uniqid().'.'.$model->imgfiles->extension;
-                    $model->imgfiles->saveAs(\Yii::getAlias("@webroot").$filename);
+                    $model->imgfiles->saveAs(\Yii::getAlias("@web").$filename);
                     $model->img=$filename;
                 }
 // 图片入库操作，此处不可以批量直接入库，因为后面我们还要把key返回 便于图片的删除
