@@ -1,6 +1,8 @@
 <?php foreach ($firstcates as $firstcate):?>
     <div class="cat item1">
-        <h3><a href="/list/index?id=<?=$firstcate->id?>"><?=$firstcate->name?></a> <b></b></h3>
+        <h3>
+            <b>  <a href="<?php echo Yii::getAlias('@web')?>.'/list/index?id='.<?=$firstcate->id?>"><?=$firstcate->name?></a>
+           </b></h3>
         <div class="cat_detail">
             <?php foreach ($firstcate->children as $secondcate):?>
                 <dl class="dl_1st">
