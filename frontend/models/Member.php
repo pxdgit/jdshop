@@ -53,7 +53,6 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
             [['email'], 'unique'],
             ['code','captcha','captchaAction'=>'site/captcha'],//网页验证码
 //            ['code','captcha','captchaAction'=>'api/captcha'],//接口验证码
-
             [['tel'],'match','pattern'=>'/^1[3578]\d{9}$/','message'=>'格式不正确'],
             ['repassword','compare','compareAttribute'=>'password','message'=>'两次输入密码不一致'],
             ['smscaptcha','validatasms'],
