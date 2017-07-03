@@ -153,7 +153,7 @@ JS
         <div class="cart fl">
             <dl>
                 <dt>
-                    <a href="">去购物车结算</a>
+                    <a href="<?php if(Yii::$app->user->identity){echo '<a href='.Yii::getAlias('@web').'/member/login>收货地址</a>';}?>">去购物车结算</a>
                     <b></b>
                 </dt>
                 <dd>

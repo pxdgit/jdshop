@@ -50,7 +50,8 @@
                     <?=$addr->tel?>&nbsp;
                 </dt>
                 <dd>
-                    <a href="edit?id=<?=$addr->id?>">修改</a>
+                    <a href="<?php echo Yii::getAlias('@web')?>.'/address/edit?id='.<?=$addr->id?>">修改</a>
+                    <a href="<?php if(Yii::$app->user->identity){echo '<a href='.Yii::getAlias('@web').'/member/login>收货地址</a>';}?>">去购物车结算</a>
                     <a href="del?id=<?=$addr->id?>">删除</a>
                     <a href="addr?id=<?=$addr->id?>" style="color:<?=$addr->status?'red':''?>">设为默认地址</a>
                 </dd>
