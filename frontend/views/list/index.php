@@ -5,7 +5,7 @@
 <div class="list w1210 bc mt10">
     <!-- 面包屑导航 start -->
     <div class="breadcrumb">
-        <h2>当前位置：<a href="/index/index">首页</a> > <a href=""><?=\backend\models\GoodsCategory::findOne(['id'=>$_GET['id']])->name?></a></h2>
+        <h2>当前位置：<a href="/index/index">首页</a> > <a href=""></a></h2>
     </div>
     <!-- 面包屑导航 end -->
 
@@ -262,13 +262,14 @@
 
         <?php
         if($models){
-        foreach ($models as $model):?>
+        foreach ($models[0] as $model):
+            ?>
                 <li>
                     <dl>
-                        <dt><a href="/goods/index?id=<?=$model[0]->id?>"><img src="http://admin.jx.com/<?=$model[0]->logo?>" alt="" /></a></dt>
-                        <dd><a href="/goods/index?id=<?=$model[0]->id?>"><?php echo $model[0]->name?></a></dd>
-                        <dd><strong><?php echo $model[0]->shop_price?></strong></dd>
-                        <dd><a href="/goods/index?id=<?=$model[0]->id?>"><em>已有10人评价</em></a></dd>
+                        <dt><a href="/goods/index?id=<?=$model->id?>"><img src="http://admin.jx.com/<?=$model->logo?>" alt="" /></a></dt>
+                        <dd><a href="/goods/index?id=<?=$model->id?>"><?php echo $model->name?></a></dd>
+                        <dd><strong><?php echo $model->shop_price?></strong></dd>
+                        <dd><a href="/goods/index?id=<?=$model->id?>"><em>已有10人评价</em></a></dd>
                     </dl>
                 </li>
         <?php endforeach;}else{?>

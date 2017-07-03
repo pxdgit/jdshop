@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\components\SphinxClient;
 use backend\models\Goods;
 use backend\models\GoodsCategory;
 use backend\models\GoodsDayCount;
@@ -26,9 +27,9 @@ class GoodsController extends BackendController
  }
     public function actionIndex()
     {
-        $search=new Search();
-        $query=Goods::find();
-        if ($search->load(\Yii::$app->request->get())&&$search->validate()){
+        $search = new Search();
+        $query = Goods::find();
+        if ($search->load(\Yii::$app->request->get()) && $search->validate()) {
             if($search['name']!=null){
                 $query->andWhere(['like','name',$search['name']]);
             }
@@ -41,7 +42,7 @@ class GoodsController extends BackendController
             if($search['brand_id']!=null){
                 $query->andWhere(['like','brand_id',$search['brand_id']]);//andWhere(like在前是用的数组,'关键字  Like  字段名)'是用字符串
         }
-        }
+    }
         $model=$query->all();
         $cates=ArrayHelper::map(GoodsCategory::find()->all(),'id','name');
         $brands=ArrayHelper::map(Brand::find()->all(),'id','name');
@@ -152,5 +153,21 @@ class GoodsController extends BackendController
                 ],
             ]
         ];
+    }
+    public function actionTest(){
+        $cl = new SphinxClient();
+        $cl->SetServer ( '127.0.0.1', 9312);
+//$cl->SetServer ( '10.6.0.6', 9312);
+//$cl->SetServer ( '10.6.0.22', 9312);
+//$cl->SetServer ( '10.8.8.2', 9312);
+        $cl->SetConnectTimeout ( 10 );
+        $cl->SetArrayResult ( true );
+// $cl->SetMatchMode ( SPH_MATCH_ANY);
+        $cl->SetMatchMode ( SPH_MATCH_ALL);
+        $cl->SetLimits(0, 1000);
+        $info = '三星';
+        $res = $cl->Query($info, 'goods');//shopstore_search
+//print_r($cl);
+       var_dump($res);
     }
 }

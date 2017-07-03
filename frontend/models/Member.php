@@ -27,6 +27,7 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public $password;
     public $repassword;
+    public $newpassword;
     public $code;
     public $agree=0;
     public $smscaptcha;
@@ -41,7 +42,7 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'tel', 'password', 'repassword','repassword', 'email','smscaptcha'], 'required'],
+            [['username', 'tel', 'password', 'repassword', 'email','smscaptcha'], 'required'],
             [['status', 'created_at', 'updated_at', 'last_login_time', 'last_login_ip'], 'integer'],
             [['username'], 'string', 'max' => 50],
             [['auth_key'], 'string', 'max' => 32],
@@ -50,7 +51,9 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
             [['username'], 'unique'],
             [['email'], 'email'],
             [['email'], 'unique'],
-            ['code','captcha','captchaAction'=>'site/captcha'],
+            ['code','captcha','captchaAction'=>'site/captcha'],//网页验证码
+//            ['code','captcha','captchaAction'=>'api/captcha'],//接口验证码
+
             [['tel'],'match','pattern'=>'/^1[3578]\d{9}$/','message'=>'格式不正确'],
             ['repassword','compare','compareAttribute'=>'password','message'=>'两次输入密码不一致'],
             ['smscaptcha','validatasms'],

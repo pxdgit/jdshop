@@ -19,8 +19,26 @@ class IndexController extends Controller
 {
     public $layout='index';
     public function actionIndex(){
-        $firstcates=GoodsCategory::find()->where(['parent_id'=>0])->all();
-        return $this->render('index',['firstcates'=>$firstcates]);
+//        $cl = new SphinxClient();
+//        $cl->SetServer('127.0.0.1', 9312);
+////$cl->SetServer ( '10.6.0.6', 9312);
+////$cl->SetServer ( '10.6.0.22', 9312);
+////$cl->SetServer ( '10.8.8.2', 9312);
+//        $cl->SetConnectTimeout(10);
+//        $cl->SetArrayResult(true);
+//// $cl->SetMatchMode ( SPH_MATCH_ANY);
+//        $cl->SetMatchMode(SPH_MATCH_ALL);
+//        $cl->SetLimits(0, 1000);
+//        $res = $cl->Query($search->name, 'goods');//shopstore_search
+////            var_dump($res);exit;
+//        if(!isset($res['matches'])){
+//            $query->where(['id'=>0]);
+//        }else{
+//            $ids=ArrayHelper::map($res['matches'],'id','id');
+//            $query->where(['in','id',$ids]);
+//        }
+//        $firstcates=GoodsCategory::find()->where(['parent_id'=>0])->all();
+        return $this->render('index');
     }
 
     public function actionClean(){
