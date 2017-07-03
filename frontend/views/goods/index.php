@@ -117,8 +117,8 @@
             <!-- 图片预览区域 start -->
             <div class="preview fl">
                 <div class="midpic">
-                    <a href="http://admin.jx.com/<?=$images[0]->img;?>" class="jqzoom" rel="gal1" >   <!-- 第一幅图片的大图 class 和 rel属性不能更改 -->
-                        <img src="http://admin.jx.com/<?=$images[0]->img;?>" alt="" width="345" height="350"/>               <!-- 第一幅图片的中图 -->
+                    <a href="http://admin.jx.com/<?=$images[0]->img?$images[0]->img:''?>" class="jqzoom" rel="gal1" >   <!-- 第一幅图片的大图 class 和 rel属性不能更改 -->
+                        <img src="http://admin.jx.com/<?=$images[0]->img?$images[0]->img:''?>" alt="" width="345" height="350"/>               <!-- 第一幅图片的中图 -->
                     </a>
                 </div>
 

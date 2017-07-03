@@ -10,6 +10,8 @@ namespace frontend\controllers;
 
 
 use EasyWeChat\Message\News;
+use frontend\models\Member;
+use frontend\models\Order;
 use yii\helpers\Url;
 use yii\web\Controller;
 use EasyWeChat\Foundation\Application;
@@ -145,21 +147,65 @@ class WechatController extends Controller
         var_dump($menu->all());
         }
     public function actionUser(){
-
+        $openid = \Yii::$app->session->get('openid');
+        if($openid == null){//没有授权用户时，发起授权
+            \Yii::$app->session->set('redirect',\Yii::$app->controller->action->uniqueId);
+            //echo 'wechat-user';
+            $app = new Application(\Yii::$app->params['wechat']);
+            $response = $app->oauth->scopes(['snsapi_base'])->redirect();           //发起网页授权
+            $response->send();
+        }
+        var_dump($openid);//打印授权用户唯一表示
     }
-    public function actionOrder(){
-        $app = new Application(\Yii::$app->params['wechat']);
-        //$response = $app->oauth->scopes(['snsapi_base'])//发起网页授权
-        $response = $app->oauth->redirect();
-        $response->send();
+    public function actionOrder()
+    {
+        $openid = \Yii::$app->session->get('openid');//从session获取微信用户openid
+        if ($openid == null) {//没有绑定微信用户，则发起网页授权，在回调方法中将opendid存入session
+            \Yii::$app->session->set('redirect',\Yii::$app->controller->action->uniqueId);//保存当前路由，以便在回调方法中跳转
+            $app = new Application(\Yii::$app->params['wechat']);
+            //$response = $app->oauth->scopes(['snsapi_base'])//发起网页授权
+            $response = $app->oauth->redirect();
+            $response->send();
+        }
+        $member = Member::findOne(['openid'=>$openid]);
+        if($member == null){//该微信用户没有与商城用户绑定绑定
+            return $this->redirect(['wechat/login']); //跳转到登陆（登陆商城账号）页面
+        }else{
+            $orders = Order::findAll(['member_id'=>$member->id]);
+            var_dump($orders);
+        }
     }
     public function actionLogin(){
+        $openid = \Yii::$app->session->get('openid');//获取已授权用户openid
+        if($openid == null){//没有授权用户时，发起授权
+            \Yii::$app->session->set('redirect',\Yii::$app->controller->action->uniqueId);
+            //echo 'wechat-user';
+            $app = new Application(\Yii::$app->params['wechat']);
+            $response = $app->oauth->scopes(['snsapi_base'])->redirect();           //发起网页授权
+            $response->send();
+        }
+        if(\Yii::$app->request->isPost){//
+            $user = Member::findOne(['username'=>\Yii::$app->request->post('username')]);//验证用户名
+            if($user && \Yii::$app->security->validatePassword(\Yii::$app->request->post('password'),$user->password_hash)){//验证密码
+                \Yii::$app->user->login($user);//验证成功，登陆
+                Member::updateAll(['openid'=>$openid],'id='.$user->id);//写入商城用户openid字段，以此将微信用户和商城用户关联
+                if(\Yii::$app->session->get('redirect')) {//登陆若是通过其他页面跳转来，则跳回去
+                    return $this->redirect([\Yii::$app->session->get('redirect')]);
+                };
+                echo '绑定成功';exit;
+            }else{
+                echo '登录失败';exit;
+            }
+        }
+        return $this->renderPartial('login');
 
     }
     public function actionCallback(){
         $app = new Application(\Yii::$app->params['wechat']);
-        $user = $app->oauth->user();
+        $user = $app->oauth->user();//获取已授权用户
    // 对应微信的 OPENID\
-        var_dump($user->getId());
+//        var_dump($user->getId());//获取授权用户的唯一表示openid
+        \Yii::$app->session->set('openid',$user->getId());//将openid存入session
+        return $this->redirect([\Yii::$app->session->get('redirect')]);//跳转到上一页面
     }
 }
