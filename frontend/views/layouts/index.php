@@ -34,7 +34,6 @@ use common\widgets\Alert;
         </div>
         <div class="topnav_right fr">
             <ul>
-                <?php echo Yii::getAlias('@web').'member/login'?>
                 <li>您好，欢迎来到京西！<?php
                     if(Yii::$app->user->isGuest){
                         echo Html::a('[ 登录 ]',['member/login']);
@@ -101,7 +100,8 @@ use common\widgets\Alert;
                 </dt>
                 <dd>
                     <div class="prompt">
-                        <?=\Yii::$app->user->identity?'尊敬的：'.\Yii::$app->user->identity->username:'请<a href="/member/login">登录</a>'?>
+                        <?=\Yii::$app->user->identity?'尊敬的：'.\Yii::$app->user->identity->username:'请<a href="                <?php echo Yii::getAlias(\'@web\').\'member/login\'?>
+">登录</a>'?>
                     </div>
                     <div class="uclist mt10">
                         <ul class="list1 fl">
