@@ -10,6 +10,7 @@
 <body>
 <!-- 使用 -->
 <div class="weui-cells__title">表单</div>
+
 <form method="post">
 <div class="weui-cells weui-cells_form">
     <div class="weui-cell weui-cell_vcode">

@@ -11,6 +11,7 @@ namespace frontend\controllers;
 
 use backend\models\Goods;
 use backend\models\GoodsIntro;
+use frontend\models\Address;
 use frontend\models\Member;
 use frontend\models\Order;
 use yii\web\Controller;
@@ -44,18 +45,16 @@ class JxwechatController extends Controller
                             return $news;
                             break;
                         case '解除绑定':
-                            $openid=\Yii::$app->session->get('openid');
-                            return $openid.'111111';
+                            $openid=$message->FromUserName;//这个就是openid！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
                             if($openid==null || Member::findOne(['openid'=>$openid])==null){
                                 return '您未绑定账户，若需绑定，请前往 http://jx.penneyx.cn/jxwechat/login';
                             }else{
-                                $member=Member::findOne(['openid'=>$openid,'id'=>\Yii::$app->user->id]);
+                                $member=Member::findOne(['openid'=>$openid]);
                                 $member->openid=null;
                                 if($member->save(false)){
-                                    return '解绑账户';
+                                    return '解除绑定成功';
                                 }
                             }
-
                             break;
                     }
 //            * 用户发送【帮助】，回复以下信息“您可以发送 优惠、解除绑定 等信息”
@@ -129,31 +128,36 @@ class JxwechatController extends Controller
     public function actionClean(){
         $openid=\Yii::$app->session->get('openid');
         var_dump($openid) ;var_dump(\Yii::$app->user->id);exit;
-        var_dump(Member::findOne(['openid'=>$openid,'id'=>\Yii::$app->user->id]));
     }
     public function actionLogin(){
         $openid=\Yii::$app->session->get('openid');
-        if($openid==null){
-            $app = new Application(\Yii::$app->params['wechat']);
-            $response = $app->oauth->redirect();
-            $response->send();
-        }
-        if(\Yii::$app->request->isPost){
-            $member=Member::findOne(['username'=>\Yii::$app->request->post('username')]);
-            if($member){
-                if(\Yii::$app->security->validatePassword(\Yii::$app->request->post('password'),$member->password_hash)){
+        if(!Member::findOne(['openid'=>$openid])){
+            if ($openid == null) {
+                $app = new Application(\Yii::$app->params['wechat']);
+                $response = $app->oauth->redirect();
+                $response->send();
+            }
+           if (\Yii::$app->request->isPost) {
+            $member = Member::findOne(['username' => \Yii::$app->request->post('username')]);
+            if ($member) {
+                if (\Yii::$app->security->validatePassword(\Yii::$app->request->post('password'), $member->password_hash)) {
                     \Yii::$app->user->login($member);
-                    Member::updateAll(['openid'=>$openid],'id='.$member->id);
-//                    if($url=\Yii::$app->session->get('redirect')){
-//                        return $this->redirect($url);
-//                    }
-                    echo '绑定成功,openid:'.$openid;
+                    Member::updateAll(['openid' => $openid], 'id=' . $member->id);
+                    if($url=\Yii::$app->session->get('redirect')){
+                        \Yii::$app->session->remove('redirect');
+                        return $this->redirect([$url]);
+                    }
+                    echo '绑定成功';
                     exit;
                 }
             }
-                echo '登陆失败';
+            echo '登陆失败';
+           }
+            return $this->renderPartial('login');
+      }else{
+            return '您已有绑定账户,请先解除绑定';
+
         }
-        return $this->renderPartial('login');
     }
     public function actionOrder(){
         $openid=\Yii::$app->session->get('openid');
@@ -163,15 +167,26 @@ class JxwechatController extends Controller
         }
         $member=Member::findOne(['id'=>\Yii::$app->user->id,'openid'=>$openid]);
         $allorder=Order::find()->where(['member_id'=>$member->id])->all();
-        var_dump($allorder);
+        return $this->renderPartial('order',['orders'=>$allorder]);
     }
+
+
+
+
     public function actionAddress(){
         $openid=\Yii::$app->session->get('openid');
         if($openid==null || Member::findOne(['openid'=>$openid])==null){
             \Yii::$app->session->set('redirect',\Yii::$app->controller->action->uniqueId);
             return $this->redirect(['jxwechat/login']);
         }
+        $member=Member::findOne(['id'=>\Yii::$app->user->id,'openid'=>$openid]);
+        $alladdress=Address::find()->where(['member_id'=>$member->id])->all();
+        return $this->renderPartial('address',['addresses'=>$alladdress]);
     }
+
+
+
+
     public function actionEditPwd(){
         $openid=\Yii::$app->session->get('openid');
         if($openid==null || Member::findOne(['openid'=>$openid])==null){
@@ -197,6 +212,10 @@ class JxwechatController extends Controller
         }
         return $this->renderPartial('pwd');
     }
+
+
+
+
     public function actionCallback(){
         $app = new Application(\Yii::$app->params['wechat']);
         $user= $app->oauth->user();
