@@ -266,7 +266,7 @@
             ?>
                 <li>
                     <dl>
-                        <dt><a href="/goods/index?id=<?=$model->id?>"><img src="http://admin.jx.com/<?=$model->logo?>" alt="" /></a></dt>
+                        <dt><a href="/goods/index?id=<?=$model->id?>"><img src="http://admin.penneyx.cn/<?=$model->logo?>" alt="" /></a></dt>
                         <dd><a href="/goods/index?id=<?=$model->id?>"><?php echo $model->name?></a></dd>
                         <dd><strong><?php echo $model->shop_price?></strong></dd>
                         <dd><a href="/goods/index?id=<?=$model->id?>"><em>已有10人评价</em></a></dd>

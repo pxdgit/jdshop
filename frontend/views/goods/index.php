@@ -117,8 +117,8 @@
             <!-- 图片预览区域 start -->
             <div class="preview fl">
                 <div class="midpic">
-                    <a href="http://admin.jx.com/<?=$images[0]->img?$images[0]->img:''?>" class="jqzoom" rel="gal1" >   <!-- 第一幅图片的大图 class 和 rel属性不能更改 -->
-                        <img src="http://admin.jx.com/<?=$images[0]->img?$images[0]->img:''?>" alt="" width="345" height="350"/>               <!-- 第一幅图片的中图 -->
+                    <a href="http://admin.penneyx.cn/<?=$images[0]->img?$images[0]->img:''?>" class="jqzoom" rel="gal1" >   <!-- 第一幅图片的大图 class 和 rel属性不能更改 -->
+                        <img src="http://admin.penneyx.cn/<?=$images[0]->img?$images[0]->img:''?>" alt="" width="345" height="350"/>               <!-- 第一幅图片的中图 -->
                     </a>
                 </div>
 
@@ -131,7 +131,7 @@
                         <ul>
                             <?php foreach ($images as $k=>$image):?>
                                 <li <?=$k?'':'class="cur"'?>>
-                                    <a <?=$k?'':'class="zoomThumbActive" '?> href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: 'http://admin.jx.com/<?=$image->img?>',largeimage: 'http://admin.jx.com/<?=$image->img?>'}"><img src="http://admin.jx.com/<?=$image->img?>"></a>
+                                    <a <?=$k?'':'class="zoomThumbActive" '?> href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: 'http://admin.penneyx.cn/<?=$image->img?>',largeimage: 'http://admin.penneyx.cn/<?=$image->img?>'}"><img src="http://admin.penneyx.cn/<?=$image->img?>"></a>
                                 </li>
                             <?php endforeach;?>
                         </ul>
